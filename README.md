@@ -1,84 +1,123 @@
-# PsyCare Backend Entities Overview
-
-This document explains the main entities in the PsyCare backend, their fields, and relationships. It is intended to help the frontend team understand how data is structured and how to interact with it via APIs.
+# PsyCare API – cURL Examples
 
 ---
 
-## **1. User**
+## **1️⃣ Admin Login**
 
-The `User` entity is the **base class** for all types of users in the system. It contains common fields shared by patients, therapists, and potentially other user types in the future.
+```bash
+curl -X POST http://localhost:8080/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "admin@example.com",
+  "password": "admin"
+}'
+```
 
-**Table:** `users` (root table in the database)
-
-**Fields:**
-
-| Field     | Type       | Description                                      |
-|-----------|------------|--------------------------------------------------|
-| `id`      | Long       | Unique identifier for the user                  |
-| `email`   | String     | User’s email (must be unique)                   |
-| `password`| String     | User’s password (hashed)                         |
-| `role`    | Enum       | User role (`PATIENT` or `THERAPIST`)            |
-| `name`    | String     | Optional first name                              |
-| `surname` | String     | Optional last name                               |
-| `age`     | Integer    | Optional age                                     |
-| `phone`   | String     | Optional phone number                             |
-
-**Notes:**
-
-- `User` is a **parent class** using **JOINED inheritance**.
-- All common fields are stored in the `users` table.
-- Subclasses have their own tables for type-specific fields.
+**Response:** JWT token (save it for Authorization header in next requests)
 
 ---
 
-## **2. Therapist**
+## **2️⃣ Therapist Registration**
 
-The `Therapist` entity extends `User` and represents a therapist in the system.
+```bash
+curl -X POST http://localhost:8080/api/therapist/register \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Ana",
+  "surname": "Popescu",
+  "email": "ana.therapist@example.com",
+  "password": "123456",
+  "phone": "0712345678",
+  "age": 30,
+  "licenseNumber": "CPR-12345"
+}'
+```
 
-**Table:** `therapists` (stores therapist-specific data)
-
-**Fields:**
-
-| Field      | Type          | Description                                        |
-|------------|---------------|--------------------------------------------------|
-| `approved` | Boolean       | Indicates if the therapist is approved           |
-| `patients` | List<Patient> | List of patients assigned to this therapist      |
-
-**Relationships:**
-
-- `One-to-Many` with `Patient` (a therapist can have multiple patients).
-- Managed by `Patient.therapist` field.
-
-**Notes for Frontend:**
-
-- When fetching a therapist, you can also get the list of assigned patients.
-- `approved` indicates if the therapist is verified and can provide sessions.
+**Response:** Therapist object (enabled=false, approved=false)
 
 ---
 
-## **3. Patient**
+## **3️⃣ Get Pending Therapists (Admin)**
 
-The `Patient` entity extends `User` and represents a patient in the system.
+```bash
+curl -X GET http://localhost:8080/api/admin/therapists/pending \
+-H "Authorization: Bearer <ADMIN_JWT_TOKEN>"
+```
 
-**Table:** `patients` (stores patient-specific data)
+**Response:** List of therapists pending approval
 
-**Fields:**
-
-| Field       | Type       | Description                           |
-|-------------|------------|---------------------------------------|
-| `therapist` | Therapist  | The therapist assigned to this patient |
-
-**Relationships:**
-
-- `Many-to-One` with `Therapist` (each patient is assigned **one therapist**).
-
-**Notes for Frontend:**
-
-- When fetching a patient, you can also retrieve their therapist.
-- The `therapist_id` foreign key links the patient to a therapist.
+```json
+[
+  {
+    "id": 1,
+    "name": "Ana",
+    "surname": "Popescu",
+    "email": "ana.therapist@example.com",
+    "enabled": false,
+    "approved": false,
+    "phone": "0712345678",
+    "age": 30,
+    "licenseNumber": "CPR-12345"
+  }
+]
+```
 
 ---
 
+## **4️⃣ Approve Therapist (Admin)**
+
+```bash
+curl -X PATCH http://localhost:8080/api/admin/approve/ana.therapist@example.com \
+-H "Authorization: Bearer <ADMIN_JWT_TOKEN>"
+```
+
+**Response:** Updated therapist object
+
+```json
+{
+  "id": 1,
+  "name": "Ana",
+  "surname": "Popescu",
+  "email": "ana.therapist@example.com",
+  "enabled": true,
+  "approved": true,
+  "phone": "0712345678",
+  "age": 30,
+  "licenseNumber": "CPR-12345"
+}
+```
+
+---
+
+## **5️⃣ Therapist Login (After Approval)**
+
+```bash
+curl -X POST http://localhost:8080/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "ana.therapist@example.com",
+  "password": "123456"
+}'
+```
+
+**Response:** JWT token for therapist
+
+---
+
+### **⚡ Notes for Frontend Developers**
+
+1. **JWT Authorization** is required for all protected endpoints (`/api/admin/**`, `/api/therapist/**`, `/api/patients/**`).
+2. Always include the header:
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+3. Admin **must approve therapists** before they can log in.
+4. Patients can register and log in immediately.
+5. Use `/api/admin/therapists/pending` to show the admin dashboard of unapproved therapists.
+
+---
 
 
 # PsyCare Application
