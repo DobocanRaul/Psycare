@@ -37,4 +37,6 @@ public class User {
 
     @Column(nullable = true)
     private String phone;
+
+    private boolean enabled = false;
 }

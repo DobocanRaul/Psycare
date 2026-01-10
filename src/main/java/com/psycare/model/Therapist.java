@@ -1,10 +1,7 @@
 package com.psycare.model;
 
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Therapist extends User {
-    private boolean approved = false;
+
+    @Column(unique = true, nullable = false)
+    private String licenseNumber;
 
     @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
     private List<Patient> patients = new ArrayList<>();
+
+    private boolean approved;
 
 }

@@ -1,0 +1,18 @@
+package com.psycare.dtos;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class TherapistRegistrationRequest {
+    private String name;
+    private String surname;
+    private String email;
+    private String password;
+    private String phone;
+    private int age;
+    private String licenseNumber;
+}
