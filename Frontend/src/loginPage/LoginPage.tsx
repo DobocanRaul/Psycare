@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './LoginPage.css';
 import logo from '../assets/PsycareLogo.png'
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +74,7 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="register-area"> 
             <div className="register-text">Want to sign-up as a user?  </div>
-            <button type="button" className="link">
+            <button type="button" className="link" onClick={() => {navigate("/register")}}>
               Click Here!
             </button>
           </div>

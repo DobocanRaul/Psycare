@@ -1,0 +1,66 @@
+/* NotFoundPage.css */
+
+:root {
+  --primary: #3b82f6;
+  --primary-hover: #1d4ed8;
+  --text-dark: #111827;
+  --text-gray: #6b7280;
+  --white: #ffffff;
+}
+
+/* Ensure full screen centering */
+.not-found-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  text-align: center;
+  padding: 20px;
+}
+
+/* The Big 404 Text */
+.error-code {
+  font-size: 120px;
+  font-weight: 800;
+  color: #eff6ff; /* Very faint blue */
+  line-height: 1;
+  margin: 0;
+  /* Adds a subtle text outline/shadow for depth */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.error-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-top: -20px; /* Pull it up slightly to overlap/sit near the big 404 */
+  margin-bottom: 12px;
+}
+
+.error-message {
+  font-size: 16px;
+  color: var(--text-gray);
+  max-width: 400px;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+/* "Go Home" Button */
+.home-button {
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: white;
+  text-decoration: none; /* Important for Link component */
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.home-button:hover {
+  background-color: var(--primary-hover);
+}
