@@ -117,8 +117,95 @@ Authorization: Bearer <JWT_TOKEN>
 4. Patients can register and log in immediately.
 5. Use `/api/admin/therapists/pending` to show the admin dashboard of unapproved therapists.
 
+Sure! Here’s a **shorter, clearer version** of your README part, with **cURL examples** and the logic summarized:
+
 ---
 
+# 🧠 PsyCare – Patient Invite & Registration (Frontend Guide)
+
+Patients **cannot self-register**; they join via therapist invitations.
+
+---
+
+## 1️⃣ Therapist Invites Patient
+
+**POST /api/patients/invite**
+Requires **therapist JWT**.
+
+**cURL example:**
+
+```bash
+curl -X POST "http://localhost:8080/api/patients/invite?email=patient@example.com" \
+  -H "Authorization: Bearer <THERAPIST_JWT>"
+```
+
+**Logic:**
+
+* Backend creates a **one-time token** linked to the therapist
+* Sends email to patient with registration link
+
+---
+
+## 2️⃣ Patient Registration Link
+
+Email contains:
+
+```
+https://frontend-url/patient/register?token=<TOKEN>
+```
+
+**Logic:**
+
+* Token is **required** and **one-time use**
+* Frontend extracts token from URL, user cannot edit it
+
+---
+
+## 3️⃣ Patient Registration Form
+
+**Fields to display:**
+
+* Password & Confirm Password
+* Name, Surname, Age, Phone
+
+---
+
+## 4️⃣ Register Patient
+
+**POST /api/patients/register**
+
+**cURL example:**
+
+```bash
+curl -X POST "http://localhost:8080/api/patients/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "abc123",
+    "password": "StrongPassword123!",
+    "name": "Ana",
+    "surname": "Popescu",
+    "age": 28,
+    "phone": "+40712345678"
+  }'
+```
+
+**Logic:**
+
+* Token is validated
+* Patient is linked to therapist
+* Invite is marked as **used**
+* Patient account is **enabled** and role = `PATIENT`
+* Invalid/used token → error
+
+---
+
+## 5️⃣ Frontend Handling
+
+* Handle **expired/used tokens**
+* Validate **password and personal info**
+* Do not expose **token or password** in URL
+
+---
 
 # PsyCare Application
 
