@@ -1,0 +1,320 @@
+/* AdminPage.css */
+
+:root {
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --danger: #ef4444;
+    --success: #10b981;
+    --text-dark: #111827;
+    --text-gray: #6b7280;
+    --bg-light: #f9fafb;
+    --white: #ffffff;
+    --border: #e5e7eb;
+  }
+  
+  /* --- Main Layout --- */
+  .admin-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--bg-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden; /* Prevent double scrollbars */
+  }
+  
+  /* Sidebar */
+  .admin-sidebar {
+    width: 260px;
+    background-color: var(--white);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    flex-shrink: 0; /* Ensure sidebar doesn't shrink */
+    justify-content: space-between;
+  }
+  
+  .sidebar-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .nav-item {
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-gray);
+    transition: all 0.2s;
+  }
+  
+  .nav-item:hover {
+    background-color: #eff6ff;
+    color: var(--primary);
+  }
+  
+  .nav-item.active {
+    background-color: #eff6ff;
+    color: var(--primary);
+    font-weight: 600;
+  }
+  
+  /* Main Content Area */
+  .admin-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto; /* Scrollable main area */
+    height: 100vh;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+  }
+  
+  /* --- Section 1: Requests Table --- */
+  .requests-table {
+    width: 100%;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-spacing: 0;
+    overflow: hidden;
+  }
+  
+  .requests-table th {
+    background-color: #f3f4f6;
+    text-align: left;
+    padding: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-gray);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .requests-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dark);
+    font-size: 14px;
+  }
+  
+  .action-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: opacity 0.2s;
+  }
+  
+  .btn-approve { background-color: var(--success); color: white; }
+  .btn-deny { background-color: var(--white); border: 1px solid var(--border); color: var(--danger); }
+  .action-btn:hover { opacity: 0.8; }
+  
+  /* --- Section 2: Posts Layout (Split View) --- */
+  .posts-split-view {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start; /* Align tops of columns */
+  }
+  
+  /* Left Column: The Form */
+  .post-form-section {
+      flex: 2; /* Takes 2/3 space */
+  }
+  
+  .post-form-card {
+    background: var(--white);
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  
+  .form-group { margin-bottom: 20px; }
+  
+  .form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+  }
+  
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  
+  .form-textarea { min-height: 120px; resize: vertical; }
+  .form-input:focus, .form-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+  
+  /* UPDATED File Upload Styling */
+  .file-upload-wrapper {
+    border: 2px dashed var(--border);
+    padding: 24px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer; /* Make it look clickable */
+    transition: all 0.2s;
+    background-color: #f9fafb;
+  }
+  
+  .file-upload-wrapper:hover {
+    border-color: var(--primary);
+    background-color: #eff6ff;
+  }
+  
+  /* Hide the actual ugly input */
+  .hidden-file-input {
+      display: none;
+  }
+  
+  .upload-placeholder-text {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-gray);
+  }
+  
+  .selected-file-name {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+  }
+  
+  .publish-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+  .publish-btn:hover { background-color: var(--primary-hover); }
+  
+  .posts-feed-section {
+      flex: 1; /* Takes 1/3 space */
+      min-width: 300px; /* Prevent squishing on small screens */
+      max-height: calc(100vh - 150px); 
+      overflow-y: auto;
+      padding-right: 4px; /* Space for scrollbar */
+  }
+  
+  .feed-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+  }
+  
+  .feed-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 16px;
+      transition: box-shadow 0.2s;
+  }
+  
+  .feed-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  .feed-image-placeholder {
+      width: 80px;
+      height: 80px;
+      background-color: #f3f4f6;
+      border-radius: 8px;
+      flex-shrink: 0;
+      object-fit: cover;
+  }
+  
+  .feed-content {
+      flex: 1;
+      overflow: hidden; /* Ensure text truncation works */
+  }
+  
+  .feed-post-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0 0 8px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+  
+  .feed-post-excerpt {
+      font-size: 13px;
+      color: var(--text-gray);
+      margin: 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+  }
+
+  @media (max-width: 1024px) {
+    .posts-split-view {
+        flex-direction: column;
+    }
+    .posts-feed-section {
+        width: 100%;
+        max-height: none;
+    }
+  }
+
+
+.preview-image {
+  max-width: 100%;
+  max-height: 200px; /* Limit height so it doesn't break layout */
+  border-radius: 8px;
+  object-fit: contain;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.remove-image-btn {
+  margin-top: 12px;
+  padding: 6px 12px;
+  background-color: #fee2e2;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.remove-image-btn:hover {
+  background-color: #fecaca;
+}
