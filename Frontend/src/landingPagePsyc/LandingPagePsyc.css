@@ -1,0 +1,67 @@
+.landing-page {
+    background-color: #f9fafb;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .content h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+  }
+  
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .post-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+  
+  .post-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: var(--text-dark);
+  }
+  
+  .post-card p {
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  
+  .post-card small {
+    display: block;
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  @media (min-width: 768px) {
+    .post-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+  }
