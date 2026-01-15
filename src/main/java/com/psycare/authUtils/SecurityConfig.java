@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import java.util.List;
 
 @Configuration
@@ -35,10 +34,9 @@ public class SecurityConfig {
                 .cors(cors -> cors
                         .configurationSource(request -> {
                             var config = new org.springframework.web.cors.CorsConfiguration();
-                            // adăugăm URL-ul front-end-ului
                             config.setAllowedOrigins(List.of(
-                                    "http://localhost:4200",       // pentru dev local
-                                    "https://psycare-frontend.azurewebsites.net" // frontend în Azure
+                                    "http://localhost:4200",
+                                    "https://psycare-c5a6cmfrdya0cact.polandcentral-01.azurewebsites.net"
                             ));
                             config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
                             config.setAllowedHeaders(List.of("*"));
@@ -48,18 +46,15 @@ public class SecurityConfig {
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // ENDPOINT-URI PUBLICE
                         .requestMatchers("/", "/index.html", "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/therapist/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/patients/register").permitAll()
 
-                        // ENDPOINT-URI PROTEJATE
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/patients/invite").hasRole("THERAPIST")
                         .requestMatchers("/api/therapist/**").hasRole("THERAPIST")
                         .requestMatchers("/api/patients/**").hasRole("PATIENT")
 
-                        // orice altceva necesită autentificare
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
