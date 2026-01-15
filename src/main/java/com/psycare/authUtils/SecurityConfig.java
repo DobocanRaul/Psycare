@@ -32,10 +32,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors // aici activăm CORS pentru Spring Security
+                .cors(cors -> cors
                         .configurationSource(request -> {
                             var config = new org.springframework.web.cors.CorsConfiguration();
-                            config.setAllowedOrigins(List.of("http://localhost:4200")); // Angular
+                            // adăugăm URL-ul front-end-ului
+                            config.setAllowedOrigins(List.of(
+                                    "http://localhost:4200",       // pentru dev local
+                                    "https://psycare-frontend.azurewebsites.net" // frontend în Azure
+                            ));
                             config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
                             config.setAllowedHeaders(List.of("*"));
                             config.setAllowCredentials(true);
@@ -44,24 +48,29 @@ public class SecurityConfig {
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/therapist/register").permitAll()  // singular
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        // ENDPOINT-URI PUBLICE
+                        .requestMatchers("/", "/index.html", "/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/therapist/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/patients/register").permitAll()
+
+                        // ENDPOINT-URI PROTEJATE
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/patients/invite").hasRole("THERAPIST")
                         .requestMatchers("/api/therapist/**").hasRole("THERAPIST")
                         .requestMatchers("/api/patients/**").hasRole("PATIENT")
+
+                        // orice altceva necesită autentificare
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // <-- add JWT filter
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(); // implement this filter
+        return new JwtAuthenticationFilter();
     }
-
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, PasswordEncoder passwordEncoder,
