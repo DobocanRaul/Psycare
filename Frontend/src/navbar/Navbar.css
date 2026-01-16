@@ -191,7 +191,7 @@
   height: 38px;
   border-radius: 50%;
   border: 2px solid var(--border-light);
-  overflow: hidden; /* This crops the image into the circle */
+  overflow: hidden;
   background-color: #f3f4f6;
   margin: 0 5px;
 }

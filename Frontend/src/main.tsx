@@ -5,8 +5,10 @@ import LoginPage from './loginPage/LoginPage.tsx'
 import RegisterPage from './registerPage/registerPage.tsx'
 import NotFoundPage from './notFoundPage/notFoundPage.tsx'
 import PsychologistLanding from './landingPagePsyc/LandingPagePsyc.tsx'
+import PatientLanding from './landingPagePatient/landingPagePatient.tsx'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import AdminPage from './adminPage/adminPage.tsx'
+
 
 document.title="Psycare"
 
@@ -19,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/register" element={<RegisterPage/>}/>
         <Route path="/home" element={<PsychologistLanding/>}/>
         <Route path="/admin" element={<AdminPage/>}/>
+        <Route path="/patient-home" element={<PatientLanding/>}/>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

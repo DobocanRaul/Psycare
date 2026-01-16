@@ -4,7 +4,12 @@ import logo from '../assets/PsycareLogo.png';
 import profilepic from '../assets/no_profile_pic.png';
 import './Navbar.css';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  userName: string;
+  isPatient?: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ userName, isPatient }) => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -17,25 +22,28 @@ const Navbar: React.FC = () => {
           <span className="navbar-logo-text">PsyCare</span>
         </div>
 
-        <div className="nav-navigation">
-          <div 
-            className="dropdown-wrapper"
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            onMouseLeave={() => setIsDropdownOpen(false)}
-          >
-            <button className="nav-item">Patients</button>
-            {isDropdownOpen && (
-              <div className="dropdown-menu">
-                <span className="dropdown-item">Popescu Ana</span>
-                <span className="dropdown-item">Marcu Maria</span>
-                <span className="dropdown-item">Pop Dana</span>
-              </div>
-            )}
+        {/* 2. Hide this section if isPatient is true */}
+        {!isPatient && (
+          <div className="nav-navigation">
+            <div 
+              className="dropdown-wrapper"
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+              <button className="nav-item">Patients</button>
+              {isDropdownOpen && (
+                <div className="dropdown-menu">
+                  <span className="dropdown-item">Popescu Ana</span>
+                  <span className="dropdown-item">Marcu Maria</span>
+                  <span className="dropdown-item">Pop Dana</span>
+                </div>
+              )}
+            </div>
+            <button className="invite-btn" onClick={() => alert('Invite sent!')}>
+              Invite Patient
+            </button>
           </div>
-          <button className="invite-btn" onClick={() => alert('Invite sent!')}>
-            Invite Patient
-          </button>
-        </div>
+        )}
       </div>
 
         {/* RIGHT SIDE: Profile + Logout */}
@@ -48,7 +56,7 @@ const Navbar: React.FC = () => {
               className="nav-avatar"
             />
           </div>
-          <span className="navbar-user-name">Dr. Chiorean</span>
+          <span className="navbar-user-name">{userName}</span>
         </div>
         
         <button className="logout-btn" onClick={() => navigate('/login')}>

@@ -17,8 +17,14 @@ const PsychologistLanding: React.FC = () => {
 
   return (
     <div className="landing-page">
-      <Navbar />
+      <Navbar userName="Dr. Chiorean"/>
+      
       <main className="content">
+        <div className="welcome-section">
+          <h1 className="greeting">Hi, psychologist!</h1>
+          <p className="sub-greeting">See below what's new.</p>
+        </div>
+
         <h2>Admin Announcements</h2>
         <div className="post-list">
           {posts.map(post => (
